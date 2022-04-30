@@ -1,0 +1,1 @@
+web: ./build/install/chat-server/bin/chat-server
