@@ -9,10 +9,9 @@ import org.litote.kmongo.reactivestreams.KMongo
 
 val mainModule = module {
     single {
-        KMongo.createClient()
+        KMongo.createClient(System.getenv("MONGODB_URI"))
             .coroutine
-            .getDatabase(System.getenv("MONGODB_URI"))
-            //.getDatabase("message_db")
+            .getDatabase("message_db")
     }
     single<MessageDataSource> {
         MessageDataSourceImpl(get())
