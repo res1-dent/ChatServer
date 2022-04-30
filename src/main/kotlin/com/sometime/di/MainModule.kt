@@ -11,7 +11,7 @@ val mainModule = module {
     single {
         KMongo.createClient()
             .coroutine
-            .getDatabase("mongodb+srv://res1dent:<password>@cluster0.zr1iq.mongodb.net/Cluster0?retryWrites=true&w=majority")
+            .getDatabase("mongodb+srv://res1dent:4652726p@cluster0.zr1iq.mongodb.net/Cluster0?retryWrites=true&w=majority")
             //.getDatabase("message_db")
     }
     single<MessageDataSource> {
