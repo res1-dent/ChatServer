@@ -1,1 +1,1 @@
-rootProject.name = "com.sometime.chat-server"
+rootProject.name = "chat-server"
