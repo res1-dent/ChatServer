@@ -18,7 +18,7 @@ import org.litote.kmongo.insertOne
 fun Application.configureRouting() {
     install(Routing) {
         val roomController by inject<RoomController>()
-        val usersDataSource: UsersDataSource by inject<UsersDataSourceImpl>()
+        val usersDataSource by inject<UsersDataSourceImpl>()
         chatSocket(roomController)
         getAllMessages(roomController)
         getAllUsers(usersDataSource)

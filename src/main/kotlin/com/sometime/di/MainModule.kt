@@ -26,7 +26,7 @@ val mainModule = module {
     single {
         RoomController(get())
     }
-    single<UsersDataSource> {
+    single {
         UsersDataSourceImpl(get())
     }
 }
