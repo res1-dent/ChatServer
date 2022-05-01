@@ -11,13 +11,19 @@ class UsersDataSourceImpl(
 
     private val users = db.getCollection<User>()
 
-    override suspend fun getAllUsers(): List<User> {
+    override suspend fun getAllUsers(username: String): List<User> {
         return users
             .find()
             .toList()
+            .filter { it.name != username }
     }
 
-    override suspend fun insertUser(user: User) {
-        users.insertOne(user)
+    override suspend fun insertUser(user: User): Boolean {
+        return if (users.findOne(user.name) != null) {
+            users.insertOne(user)
+            true
+        } else {
+            false
+        }
     }
 }

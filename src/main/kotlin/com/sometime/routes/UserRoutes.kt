@@ -11,10 +11,13 @@ import io.ktor.routing.*
 
 fun Route.getAllUsers(usersDataSource: UsersDataSource) {
     get("/users") {
-        call.respond(
-            HttpStatusCode.OK,
-            usersDataSource.getAllUsers()
-        )
+        val userName = call.request.queryParameters["username"]
+        if (userName!=null) {
+            call.respond(
+                HttpStatusCode.OK,
+                usersDataSource.getAllUsers(userName)
+            )
+        }
     }
 }
 
@@ -27,8 +30,11 @@ fun Route.insertUser(usersDataSource: UsersDataSource) {
             val user = User(
                 name = userName
             )
-            usersDataSource.insertUser(user)
-            call.respond(HttpStatusCode.OK, "Cool")
+            if (usersDataSource.insertUser(user))
+                call.respond(HttpStatusCode.OK, "Cool")
+            else {
+                call.respond(HttpStatusCode.OK, "UserExist")
+            }
         }
     }
 }

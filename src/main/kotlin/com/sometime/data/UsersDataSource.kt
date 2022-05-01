@@ -5,8 +5,9 @@ import com.sometime.room.Member
 
 interface UsersDataSource {
 
-    suspend fun getAllUsers(): List<User>
+    suspend fun getAllUsers(username:String): List<User>
 
-    suspend fun insertUser(user: User)
+    suspend fun insertUser(user: User): Boolean
+
 
 }
