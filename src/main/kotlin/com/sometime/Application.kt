@@ -4,6 +4,8 @@ import com.sometime.di.mainModule
 import io.ktor.application.*
 import com.sometime.plugins.*
 import org.koin.ktor.ext.Koin
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)

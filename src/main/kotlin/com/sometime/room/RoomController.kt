@@ -8,10 +8,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentHashMap
 
+
+val members: ConcurrentHashMap<String, Member> = ConcurrentHashMap()
+
 class RoomController(
     private val messageDataSource: MessageDataSource
 ) {
-    private val members: ConcurrentHashMap<String, Member> = ConcurrentHashMap()
 
     fun onJoin(
         username: String,
@@ -26,12 +28,13 @@ class RoomController(
         )
     }
 
-    suspend fun sendMessage(senderUsername: String, message: String) {
+    suspend fun sendMessage(senderUsername: String, message: String, chatId: String) {
         members.values.forEach { member: Member ->
             val messageEntity = Message(
                 text = message,
                 username = senderUsername,
-                timestamp = System.currentTimeMillis()
+                timestamp = System.currentTimeMillis(),
+                chatId = chatId
             )
             messageDataSource.insertMessage(messageEntity)
             val parsedMessage = Json.encodeToString(messageEntity)
@@ -45,9 +48,10 @@ class RoomController(
 
     suspend fun tryDisconnect(username: String) {
         members[username]?.socket?.close()
-        if (members.containsKey(username)){
+        if (members.containsKey(username)) {
             members.remove(username)
         }
     }
 
 }
+

@@ -10,5 +10,5 @@ data class Message(
     val username: String,
     val timestamp: Long,
     @BsonId
-    val id: String = ObjectId().toString()
+    val id: String = ObjectId().toString(),
 )

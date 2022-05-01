@@ -1,7 +1,9 @@
 package com.sometime.routes
 
+import com.sometime.data.model.Message
 import com.sometime.room.MemberAlreadyExistsException
 import com.sometime.room.RoomController
+import com.sometime.room.members
 import com.sometime.sessions.ChatSession
 import io.ktor.application.*
 import io.ktor.http.*
@@ -11,8 +13,10 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
-fun Route.chatSocket(roomController: RoomController) {
+fun Route.chatSocket(roomController: RoomController, ) {
     webSocket(path = "/chat-socket") {
         val session = call.sessions.get<ChatSession>()
         if (session == null) {
@@ -27,7 +31,7 @@ fun Route.chatSocket(roomController: RoomController) {
             )
             incoming.consumeEach { frame ->
                 if (frame is Frame.Text) {
-                    roomController.sendMessage(session.username, frame.readText())
+                    roomController.sendMessage(session.username, frame.readText(), session.sessionId)
                 }
             }
         } catch (e: MemberAlreadyExistsException) {
@@ -41,8 +45,11 @@ fun Route.chatSocket(roomController: RoomController) {
 }
 
 
-fun Route.getAllMessages(roomController:RoomController){
+
+fun Route.getAllMessages(roomController: RoomController) {
     get("/messages") {
+        val messages = roomController.getAllMessages()
+        call.application.environment.log.error("messages = $messages")
         call.respond(
             HttpStatusCode.OK,
             roomController.getAllMessages()

@@ -12,7 +12,7 @@ fun Application.configureSecurity() {
     }
 
     intercept(ApplicationCallPipeline.Features) {
-        if (call.sessions.get<ChatSession>() == null){
+        if (call.sessions.get<ChatSession>() == null) {
             val username = call.parameters["username"] ?: "Guest"
             call.sessions.set(ChatSession(username, generateNonce()))
         }
