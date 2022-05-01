@@ -5,6 +5,7 @@ import com.sometime.room.MemberAlreadyExistsException
 import com.sometime.room.RoomController
 import com.sometime.room.members
 import com.sometime.sessions.ChatSession
+import com.sometime.sessions.Connection
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
@@ -13,8 +14,6 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 fun Route.chatSocket(roomController: RoomController, ) {
     webSocket(path = "/chat-socket") {
@@ -43,9 +42,6 @@ fun Route.chatSocket(roomController: RoomController, ) {
         }
     }
 }
-
-
-
 fun Route.getAllMessages(roomController: RoomController) {
     get("/messages") {
         val messages = roomController.getAllMessages()
