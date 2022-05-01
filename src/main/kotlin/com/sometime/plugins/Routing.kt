@@ -1,5 +1,6 @@
 package com.sometime.plugins
 
+import com.sometime.data.UsersDataSource
 import com.sometime.data.UsersDataSourceImpl
 import com.sometime.room.RoomController
 import com.sometime.routes.chatSocket
@@ -17,7 +18,7 @@ import org.litote.kmongo.insertOne
 fun Application.configureRouting() {
     install(Routing) {
         val roomController by inject<RoomController>()
-        val usersDataSource by inject<UsersDataSourceImpl>()
+        val usersDataSource: UsersDataSource by inject<UsersDataSourceImpl>()
         chatSocket(roomController)
         getAllMessages(roomController)
         getAllUsers(usersDataSource)
